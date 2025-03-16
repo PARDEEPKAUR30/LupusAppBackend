@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-9f0miov=220kx2pnclp*+5z(8#s9e&d2b4wb0zh%lv^pu2m7lk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.6', '10.0.2.2']
+
+
 
 
 # Application definition
@@ -39,9 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third-party apps
     'rest_framework',  # Django REST framework
-
     # Your apps
     'api',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -52,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'LupusAppBackend.urls'
@@ -126,3 +129,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Add this to settings.py
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8081",  # Metro Bundler
+    "http://127.0.0.1:8000",  # Django API on local
+    "http://192.168.1.6:8000",  # Replace with your local IP
+    "http://10.0.2.2:8000"
+]
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (for testing)
