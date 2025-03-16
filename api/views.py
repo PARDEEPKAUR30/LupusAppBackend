@@ -92,7 +92,7 @@ def calculate_weightage(data):
         weightage=0
         if antiDsDNA>370.5 or antiSmith>=1.0:
             weightage+=6
-            if fever=="Yes":
+            if fever:
                 weightage+=2
             
             if haemoglobin<12:
@@ -103,42 +103,42 @@ def calculate_weightage(data):
                 weightage+=4
 
 
-            if delirium=="Yes":
+            if delirium:
                 weightage+=2
-            if psychosis=="Yes":
+            if psychosis:
                 weightage+=3
-            if seizure=="Yes":
+            if seizure:
                 weightage+=5
 
 
-            if alopecia=="Yes":
+            if alopecia:
                 weightage+=2
-            if oralUlcers=="Yes":
+            if oralUlcers:
                 weightage+=2
-            if discoidRash=="Yes":
+            if discoidRash:
                 weightage+=4
-            if photosensitivity=="Yes":
+            if photosensitivity:
                 weightage+=6
 
 
-            if pleuralEffusion=="Yes":
+            if pleuralEffusion:
                 weightage+=5
-            if pericarditis=="Yes":
+            if pericarditis:
                 weightage+=6
 
 
-            if jointPain=="Yes":
+            if jointPain:
                 weightage+=6
 
 
             if urineRoutine>0.5:
                 weightage+=4
-            if renalClass2=="Yes":
+            if renalClass2:
                 weightage+=8
-            if renalClass3=="Yes":
+            if renalClass3:
                 weightage+=10
 
-            if anticardiolipin=="Yes"or antiB2GPI=="Yes" or lupusAnticoagulant=="Yes":
+            if anticardiolipin or antiB2GPI or lupusAnticoagulant:
                 weightage+=2
 
             if c3<80 or c4<10:
