@@ -160,3 +160,9 @@ def calculate_weightage(data):
     except Exception as e:
         print("Error>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>:",e)
         return False
+
+
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+    
