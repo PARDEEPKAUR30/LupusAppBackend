@@ -104,8 +104,18 @@ WSGI_APPLICATION = 'LupusAppBackend.wsgi.application'
 #     }
 # }
 
+
+
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': os.getenv('DB_NAME'),
+    #     'USER': os.getenv('DB_USER'),
+    #     'PASSWORD': os.getenv('PASSWORD'),
+    #     'HOST': os.getenv('HOST'),
+    #     'PORT': os.getenv('PORT')
+    # }
 }
 # DATABASES = {
 #     "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
