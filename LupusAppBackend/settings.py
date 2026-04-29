@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'LupusAppBackend.urls'
@@ -104,8 +105,11 @@ WSGI_APPLICATION = 'LupusAppBackend.wsgi.application'
 # }
 
 DATABASES = {
-    "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
+# DATABASES = {
+#     "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
+# }
 
 
 # Password validation
@@ -157,3 +161,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://10.0.2.2:8000"
 ]
 CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (for testing)
+
+ALLOWED_HOSTS = ['*']
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

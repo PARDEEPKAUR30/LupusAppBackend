@@ -14,7 +14,7 @@ def home(request):
 def predict_lupus(request):
     try:
         data = request.data.copy()  # Create a mutable copy of request data
-        print("data>>>>>>>>>>>>>>",data)
+        # print("data>>>>>>>>>>>>>>",data)
         # Convert "Yes"/"No" values to boolean True/False
         # boolean_fields = [
         #     "fever", "alopecia", "oralUlcers", "discoidRash", "photosensitivity", "jointPain",
@@ -63,33 +63,38 @@ def predict_lupus(request):
 def calculate_weightage(data):
     try:
         fever=data.get("fever","No")
+        antiDsDNA=data.get("antiDsDNA","No")
+        antiSmith=data.get("antiSmith","No")
+        hemolysis=data.get("hemolysis","No")
+        delirium=data.get("delirium","No")
+        psychosis=data.get("psychosis","No")
+        seizure=data.get("seizure","No")
         alopecia=data.get("alopecia","No")
         oralUlcers=data.get("oralUlcers","No")
         discoidRash=data.get("discoidRash","No")
         photosensitivity=data.get("photosensitivity","No")
-        jointPain=data.get("jointPain","No")
         pleuralEffusion=data.get("pleuralEffusion","No")
         pericarditis=data.get("pericarditis","No")
-        delirium=data.get("delirium","No")
-        psychosis=data.get("psychosis","No")
-        seizure=data.get("seizure","No")
+        jointPain=data.get("jointPain","No")
+        renalClass2=data.get("renalClass2","No")
+        renalClass3=data.get("renalClass3","No")
         anticardiolipin=data.get("anticardiolipin","No")
         antiB2GPI=data.get("antiB2GPI","No")
         lupusAnticoagulant=data.get("lupusAnticoagulant","No")
-        renalClass2=data.get("renalClass2","No")
-        renalClass3=data.get("renalClass3","No")
-        urineRoutine = float(data.get("urineRoutine", 0.1) if data.get("urineRoutine") is not None else 0.1)
-        haemoglobin=float(data.get("haemoglobin", 12) if data.get("haemoglobin") is not None else 80.0)
         tlc=float(data.get("tlc", 4000) if data.get("tcl") is not None else 80.0)
         plateletCount = float(data.get("plateletCount", 1.0) if data.get("plateletCount") is not None else 1.0)
+        urineRoutine = float(data.get("urineRoutine", 0.1) if data.get("urineRoutine") is not None else 0.1)
         c3 = float(data.get("c3", 80) if data.get("c3") is not None else 80.0)
         c4 = float(data.get("c4", 10) if data.get("c4") is not None else 10.0)
-        antiDsDNA=float(data.get("antiDsDNA", 0.0) if data.get("antiDsDNA") is not None else 0.0)
-        antiSmith = float(data.get("antiSmith", 0.0) if data.get("antiSmith") is not None else 0.0)
+
+        # haemoglobin=float(data.get("haemoglobin", 12) if data.get("haemoglobin") is not None else 80.0)
+        # antiDsDNA=float(data.get("antiDsDNA", 0.0) if data.get("antiDsDNA") is not None else 0.0)
+        # antiSmith = float(data.get("antiSmith", 0.0) if data.get("antiSmith") is not None else 0.0)
 
         weightage=0
         #SLE-specific antibodies
-        if antiDsDNA>370.5 or antiSmith>=1.0:
+        # if antiDsDNA>370.5 or antiSmith>=1.0:
+        if antiDsDNA=="Yes" or antiSmith=="Yes":
             weightage+=6
 
             #Constitutional
@@ -97,11 +102,11 @@ def calculate_weightage(data):
                 weightage+=2
             
             #Hematologic
-            if haemoglobin<12:
-                weightage+=3
             if tlc<4000:
-                weightage+=4
+                weightage+=3
             if plateletCount<1.0:
+                weightage+=4
+            if hemolysis=="Yes":
                 weightage+=4
 
             #Neuropsychiatric
@@ -145,12 +150,12 @@ def calculate_weightage(data):
                 weightage+=2
 
             #Complement proteins
-            if c3<80 and c4<10:
-                weightage+=4
-            elif c3<80 or c4<10:
+            if c3<80 or c4<10:
                 weightage+=3
+            elif c3<80 and c4<10:
+                weightage+=4
 
-            if weightage>10:
+            if weightage>=10:
                 return 'Criteria Met' 
             else:
                 return 'Criteria Not Met'      
