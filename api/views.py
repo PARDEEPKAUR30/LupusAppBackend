@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import LupusData
 from .serializers import LupusDataSerializer
+
+from django.http import FileResponse
+import os
+from django.conf import settings
 
 
 def home(request):
@@ -171,3 +175,17 @@ def calculate_weightage(data):
 def privacy_policy(request):
     return render(request, 'privacy_policy.html')
     
+def downloads(request):
+    return HttpResponse(
+        '<h2>Welcome to LupusApp</h2>'
+        '<a href="/api/download-apk/">Download Lupus Check App</a>'
+    )
+
+def download_apk(request):
+    file_path = os.path.join(settings.BASE_DIR, 'LupusAppBackend', 'downloads', 'app-release.apk')
+
+    return FileResponse(
+        open(file_path, 'rb'),
+        as_attachment=True,
+        filename='app-release.apk'
+    )
