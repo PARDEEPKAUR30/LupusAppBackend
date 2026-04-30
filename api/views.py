@@ -189,3 +189,26 @@ def download_apk(request):
         as_attachment=True,
         filename='app-release.apk'
     )
+def lupuscheck_app(request):
+    fields = [
+        ("antiDsDNA", "Anti-dsDNA"),
+        ("antiSmith", "Anti-Smith"),
+        ("fever", "Fever"),
+        ("hemolysis", "Autoimmune Hemolysis"),
+        ("delirium", "Delirium"),
+        ("psychosis", "Psychosis"),
+        ("seizure", "Seizure"),
+        ("alopecia", "Non-Scarring Alopecia"),
+        ("oralUlcers", "Oral Ulcers"),
+        ("discoidRash", "Subacute Cutaneous or Discoid Lupus"),
+        ("photosensitivity", "Acute Cutaneous Lupus"),
+        ("jointPain", "Joint Involvement"),
+        ("pleuralEffusion", "Pleural/Pericardial Effusion"),
+        ("pericarditis", "Acute Pericarditis"),
+        ("anticardiolipin", "Anticardiolipin Antibodies"),
+        ("antiB2GPI", "Anti-beta2 glycoprotein 1 antibodies"),
+        ("lupusAnticoagulant", "Lupus Anticoagulant"),
+        ("renalClass2", "Renal biopsy class II/V lupus"),
+        ("renalClass3", "Renal biopsy class III/IV lupus"),
+    ]
+    return render(request, 'lupuscheck_app.html', {"fields":fields})
