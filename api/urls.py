@@ -6,5 +6,7 @@ urlpatterns = [
     path('privacy_policy/', views.privacy_policy, name='privacy_policy'),
     path('downloads/', views.downloads, name='downloads'),
     path('download-apk/', views.download_apk, name='download-apk'),
-    path('lupuscheck_app/', views.lupuscheck_app, name='lupuscheck_app')
+    path('lupuscheck_app/', views.lupuscheck_app, name='lupuscheck_app'),
+    path('lupuscheck_link/', views.lupuscheck_link, name='lupuscheck_link')
+    
 ]

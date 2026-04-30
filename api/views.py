@@ -212,3 +212,6 @@ def lupuscheck_app(request):
         ("renalClass3", "Renal biopsy class III/IV lupus"),
     ]
     return render(request, 'lupuscheck_app.html', {"fields":fields})
+
+def lupuscheck_link(request):
+    return render(request, 'app_icon.html')
