@@ -8,6 +8,7 @@ from .serializers import LupusDataSerializer
 from django.http import FileResponse
 import os
 from django.conf import settings
+import json
 
 
 def home(request):
@@ -51,11 +52,26 @@ def predict_lupus(request):
             # Save data to database
             lupus_instance = serializer.save()
             # Perform ML prediction (Replace with actual ML model call)
-            prediction_result = calculate_weightage(data) if calculate_weightage(data) else 'Something went wrong. Please try again!'
-
+            prediction_result = calculate_weightage(data) 
             print("prediction_result>>>>>>>>>>>>>",prediction_result)
+            
+            if not prediction_result:
+                return Response({
+                    "prediction": "Something went wrong. Please try again!"
+                }, status=400)
+
+            
+            # return Response({
+            #     "prediction": prediction_result.prediction,
+            #     "weightage":prediction_result.weightage,
+            #     "data": serializer.data
+            # })
+
+            result_data = json.loads(prediction_result.content)
+
             return Response({
-                "prediction": prediction_result,
+                "prediction": result_data.get("prediction"),
+                "weightage": result_data.get("weightage"),
                 "data": serializer.data
             })
         
@@ -160,11 +176,11 @@ def calculate_weightage(data):
                 weightage+=4
 
             if weightage>=10:
-                return 'Criteria Met' 
+                return JsonResponse({'prediction': 'Criteria Met', 'weightage': weightage })
             else:
-                return 'Criteria Not Met'      
+                return JsonResponse({'prediction': 'Criteria Not Met', 'weightage': weightage})      
         else:
-            return 'Criteria Not Met'
+            return JsonResponse({'prediction': 'Criteria Not Met', 'weightage': weightage})
 
     except Exception as e:
         print("Error>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>:",e)

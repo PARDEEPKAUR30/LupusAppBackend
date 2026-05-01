@@ -181,9 +181,10 @@
                 // ✅ CHECK ACTUAL RESULT CONTENT
                 if (response.ok && result.prediction !== "Something went wrong. Please try again!") {
 
-                    modalTitle.innerText = "Prediction Result";
+                    modalTitle.innerText = "Prediction Results";
                     modalBody.innerHTML = `
-                        <b>Result:</b> ${result.prediction}<br><br>
+                        <b>Status:</b> ${result.prediction}<br><br>
+                        <b>Score:</b> ${result.weightage}<br><br>
                         <small>
                             Important Note: All the results of this app are for educational purposes only. The app results should not be used for Lupus classification and are not intended to replace clinical judgment or guide individual patient care in any manner.
                         </small>
