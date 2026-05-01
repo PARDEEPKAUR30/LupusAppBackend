@@ -180,11 +180,15 @@
 
                 // ✅ CHECK ACTUAL RESULT CONTENT
                 if (response.ok && result.prediction !== "Something went wrong. Please try again!") {
+                    
+                    const flagIcon = result.weightage >= 20 
+                        ? ' <span style="color:red;">🚩 High Risk</span>' 
+                        : '';
 
                     modalTitle.innerText = "Prediction Results";
                     modalBody.innerHTML = `
                         <b>Status:</b> ${result.prediction}<br><br>
-                        <b>Score:</b> ${result.weightage}<br><br>
+                        <b>Score:</b> ${result.weightage} ${flagIcon}<br><br>
                         <small>
                             Important Note: All the results of this app are for educational purposes only. The app results should not be used for Lupus classification and are not intended to replace clinical judgment or guide individual patient care in any manner.
                         </small>
