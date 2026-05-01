@@ -112,6 +112,7 @@ def calculate_weightage(data):
         # antiSmith = float(data.get("antiSmith", 0.0) if data.get("antiSmith") is not None else 0.0)
 
         weightage=0
+        clinical_criterion_fulfilled="No"
         #SLE-specific antibodies
         # if antiDsDNA>370.5 or antiSmith>=1.0:
         if antiDsDNA=="Yes" or antiSmith=="Yes":
@@ -120,62 +121,93 @@ def calculate_weightage(data):
             #Constitutional
             if fever=="Yes":
                 weightage+=2
+                clinical_criterion_fulfilled="Yes"
             
             #Hematologic
+            domain_score=0
             if tlc<4000:
-                weightage+=3
+                domain_score=3
+                clinical_criterion_fulfilled="Yes"
             if plateletCount<1.0:
-                weightage+=4
+                domain_score=4
+                clinical_criterion_fulfilled="Yes"
             if hemolysis=="Yes":
-                weightage+=4
+                domain_score=4
+                clinical_criterion_fulfilled="Yes"
+            weightage+=domain_score
 
+            
             #Neuropsychiatric
+            domain_score=0
             if delirium=="Yes":
-                weightage+=2
+                domain_score=2
+                clinical_criterion_fulfilled="Yes"
             if psychosis=="Yes":
-                weightage+=3
+                domain_score=3
+                clinical_criterion_fulfilled="Yes"
             if seizure=="Yes":
-                weightage+=5
+                domain_score=5
+                clinical_criterion_fulfilled="Yes"
+            weightage+=domain_score
 
+            
             #Mucocutaneous
+            domain_score=0
             if alopecia=="Yes":
-                weightage+=2
+                domain_score=2
+                clinical_criterion_fulfilled="Yes"
             if oralUlcers=="Yes":
-                weightage+=2
+                domain_score=2
+                clinical_criterion_fulfilled="Yes"
             if discoidRash=="Yes":
-                weightage+=4
+                domain_score=4
+                clinical_criterion_fulfilled="Yes"
             if photosensitivity=="Yes":
-                weightage+=6
+                domain_score=6
+                clinical_criterion_fulfilled="Yes"
+            weightage+=domain_score
 
+            
             #Serosal
+            domain_score=0
             if pleuralEffusion=="Yes":
-                weightage+=5
+                domain_score=5
+                clinical_criterion_fulfilled="Yes"
             if pericarditis=="Yes":
-                weightage+=6
+                domain_score=6
+                clinical_criterion_fulfilled="Yes"
+            weightage+=domain_score
 
+            
             #Musculoskeletal
             if jointPain=="Yes":
                 weightage+=6
+                clinical_criterion_fulfilled="Yes"
 
             #Renal
+            domain_score=0
             if urineRoutine>0.5:
-                weightage+=4
+                domain_score=4
+                clinical_criterion_fulfilled="Yes"
             if renalClass2=="Yes":
-                weightage+=8
+                domain_score=8
+                clinical_criterion_fulfilled="Yes"
             if renalClass3=="Yes":
-                weightage+=10
+                domain_score=10
+                clinical_criterion_fulfilled="Yes"
 
             #Antiphospholipid antibodies
             if anticardiolipin=="Yes" or antiB2GPI=="Yes" or lupusAnticoagulant=="Yes":
                 weightage+=2
 
             #Complement proteins
+            domain_score=0
             if c3<80 or c4<10:
-                weightage+=3
-            elif c3<80 and c4<10:
-                weightage+=4
+                domain_score=3
+            if c3<80 and c4<10:
+                domain_score=4
 
-            if weightage>=10:
+            if weightage>=10 and clinical_criterion_fulfilled=="Yes":
                 return JsonResponse({'prediction': 'Criteria Met', 'weightage': weightage })
             else:
                 return JsonResponse({'prediction': 'Criteria Not Met', 'weightage': weightage})      
