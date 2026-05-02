@@ -207,7 +207,7 @@ def calculate_weightage(data):
                 domain_score=3
             if c3<80 and c4<10:
                 domain_score=4
-            Weightage+=domain_score
+            weightage+=domain_score
 
             if weightage>=10 and clinical_criterion_fulfilled=="Yes":
                 return JsonResponse({'prediction': 'Criteria Met', 'weightage': weightage })
