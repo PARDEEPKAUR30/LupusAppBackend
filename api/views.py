@@ -195,6 +195,7 @@ def calculate_weightage(data):
             if renalClass3=="Yes":
                 domain_score=10
                 clinical_criterion_fulfilled="Yes"
+            weightage+=domain_score
 
             #Antiphospholipid antibodies
             if anticardiolipin=="Yes" or antiB2GPI=="Yes" or lupusAnticoagulant=="Yes":
@@ -206,6 +207,7 @@ def calculate_weightage(data):
                 domain_score=3
             if c3<80 and c4<10:
                 domain_score=4
+            Weightage+=domain_score
 
             if weightage>=10 and clinical_criterion_fulfilled=="Yes":
                 return JsonResponse({'prediction': 'Criteria Met', 'weightage': weightage })
