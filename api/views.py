@@ -52,6 +52,7 @@ def predict_lupus(request):
 
 def calculate_weightage(data):
     try:
+        ana=data.get("ANA","Positive")
         fever=data.get("fever","No")
         antiDsDNA=data.get("antiDsDNA","No")
         antiSmith=data.get("antiSmith","No")
@@ -80,9 +81,11 @@ def calculate_weightage(data):
 
         weightage=0
         clinical_criterion_fulfilled="No"
-        #SLE-specific antibodies
-        if antiDsDNA=="Yes" or antiSmith=="Yes":
-            weightage+=6
+
+        if ana=="Positive":
+            #SLE-specific antibodies
+            if antiDsDNA=="Yes" or antiSmith=="Yes":
+                weightage+=6
 
             #Constitutional
             if fever=="Yes":
