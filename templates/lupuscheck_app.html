@@ -104,6 +104,29 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* reset button css*/
+        .header-container {
+            position: relative;
+        }
+        .reset-circle {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #9a33cc;
+            background: transparent;
+            color: #9a33cc;
+            font-size: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .reset-circle:hover {
+            background: #9a33cc;
+            color: #fff;
+        }
     
     </style>
 </head>
@@ -115,7 +138,21 @@
             <form id="lupusForm" class="p-4">
                 {% csrf_token %}
                 <div>
-                    <h2 class="text-center mb-4 title fw-bold"><img src="{% static 'images/lupus_app_logo.png' %}" height="100" width="80">Check For Lupus</h2>
+                    <!-- <h2 class="text-center mb-4 title fw-bold"><img src="{% static 'images/lupus_app_logo.png' %}" height="100" width="80">Check For Lupus</h2>-->
+
+
+                    <div class="header-container mb-3">
+                        <h2 class="text-center title fw-bold">
+                            <img src="{% static 'images/lupus_app_logo.png' %}" height="100" width="80">
+                            Check For Lupus
+                        </h2>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="button" id="resetBtn" class="btn reset-circle">
+                                ⟳
+                            </button>
+                        </div>
+                    </div>
 
                     <div class="entery_criteria">
                         <div class="mb-3">
@@ -301,6 +338,23 @@
 
             document.getElementById("loaderOverlay").style.display = "none";
             modal.show();
+        });
+
+
+        // reset button
+        $(document).ready(function () {
+            $("#resetBtn").on("click", function () {
+                $("#lupusForm")[0].reset();
+
+                // Hide criteria section
+                $(".criteria_parameters").slideUp();
+
+                // Set ANA back to Negative
+                // $('input[name="ana"][value="Negative"]').prop("checked", true);
+
+                // Clear numeric fields explicitly
+                $('input[type="number"]').val('');
+            });
         });
     </script>
 
