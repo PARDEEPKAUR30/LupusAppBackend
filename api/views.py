@@ -20,31 +20,6 @@ def predict_lupus(request):
     try:
         data = request.data.copy()  # Create a mutable copy of request data
         # print("data>>>>>>>>>>>>>>",data)
-        # Convert "Yes"/"No" values to boolean True/False
-        # boolean_fields = [
-        #     "fever", "alopecia", "oralUlcers", "discoidRash", "photosensitivity", "jointPain",
-        #     "pleuralEffusion", "pericarditis", "delirium", "psychosis", "seizure",
-        #     "renalClass2", "renalClass3","anticardiolipin", "antiB2GPI", "lupusAnticoagulant",
-        # ]
-        # for field in boolean_fields:
-        #     if field in data:
-        #         data[field] = data[field] == "Yes"  # Convert "Yes" to True, "No" to False
-
-        # # Convert numeric fields to float (if empty, set to None)
-        # numeric_fields = [
-        #     "urineRoutine", "haemoglobin", "tlc", "plateletCount",
-        #     "c3", "c4", "antiDsDNA", "antiSmith"
-        # ]
-        # for field in numeric_fields:
-        #     value = data.get(field)
-            
-        #     if value is None or value == "":  
-        #         data[field] = 0.0  # Set a default value like 0.0
-        #     else:
-        #         try:
-        #             data[field] = float(value)  # Convert to float
-        #         except ValueError:
-        #             data[field] = 0.0  # Handle invalid values safely
 
         
         serializer = LupusDataSerializer(data=data)
@@ -52,6 +27,7 @@ def predict_lupus(request):
             # Save data to database
             lupus_instance = serializer.save()
             # Perform ML prediction (Replace with actual ML model call)
+            print("data>>>>>>>>>>>>>> after seralizer",data)
             prediction_result = calculate_weightage(data) 
             print("prediction_result>>>>>>>>>>>>>",prediction_result)
             
@@ -60,12 +36,6 @@ def predict_lupus(request):
                     "prediction": "Something went wrong. Please try again!"
                 }, status=400)
 
-            
-            # return Response({
-            #     "prediction": prediction_result.prediction,
-            #     "weightage":prediction_result.weightage,
-            #     "data": serializer.data
-            # })
 
             result_data = json.loads(prediction_result.content)
 
@@ -101,20 +71,16 @@ def calculate_weightage(data):
         anticardiolipin=data.get("anticardiolipin","No")
         antiB2GPI=data.get("antiB2GPI","No")
         lupusAnticoagulant=data.get("lupusAnticoagulant","No")
-        tlc=float(data.get("tlc", 4000) if data.get("tcl") is not None else 80.0)
+        tlc=int(data.get("tlc", 4000) if data.get("tlc") is not None else 4000)
         plateletCount = float(data.get("plateletCount", 1.0) if data.get("plateletCount") is not None else 1.0)
         urineRoutine = float(data.get("urineRoutine", 0.1) if data.get("urineRoutine") is not None else 0.1)
         c3 = float(data.get("c3", 80) if data.get("c3") is not None else 80.0)
         c4 = float(data.get("c4", 10) if data.get("c4") is not None else 10.0)
 
-        # haemoglobin=float(data.get("haemoglobin", 12) if data.get("haemoglobin") is not None else 80.0)
-        # antiDsDNA=float(data.get("antiDsDNA", 0.0) if data.get("antiDsDNA") is not None else 0.0)
-        # antiSmith = float(data.get("antiSmith", 0.0) if data.get("antiSmith") is not None else 0.0)
 
         weightage=0
         clinical_criterion_fulfilled="No"
         #SLE-specific antibodies
-        # if antiDsDNA>370.5 or antiSmith>=1.0:
         if antiDsDNA=="Yes" or antiSmith=="Yes":
             weightage+=6
 
@@ -122,19 +88,25 @@ def calculate_weightage(data):
             if fever=="Yes":
                 weightage+=2
                 clinical_criterion_fulfilled="Yes"
+                print("weightage after fever:", weightage)
             
+
             #Hematologic
             domain_score=0
+            print("tlc>>>>>>>>>>>>>>>>>>>>>>>",tlc)
             if tlc<4000:
+                print("tlc value:",tlc)
                 domain_score=3
-                clinical_criterion_fulfilled="Yes"
+
             if plateletCount<1.0:
+                print("plt value:",plateletCount)
                 domain_score=4
-                clinical_criterion_fulfilled="Yes"
+
             if hemolysis=="Yes":
                 domain_score=4
-                clinical_criterion_fulfilled="Yes"
+
             weightage+=domain_score
+            print("weightage after Hematologic:", weightage)
 
             
             #Neuropsychiatric
@@ -142,13 +114,17 @@ def calculate_weightage(data):
             if delirium=="Yes":
                 domain_score=2
                 clinical_criterion_fulfilled="Yes"
+
             if psychosis=="Yes":
                 domain_score=3
                 clinical_criterion_fulfilled="Yes"
+
             if seizure=="Yes":
                 domain_score=5
                 clinical_criterion_fulfilled="Yes"
+
             weightage+=domain_score
+            print("weightage after Neuropsychiatric:", weightage)
 
             
             #Mucocutaneous
@@ -156,59 +132,76 @@ def calculate_weightage(data):
             if alopecia=="Yes":
                 domain_score=2
                 clinical_criterion_fulfilled="Yes"
+
             if oralUlcers=="Yes":
                 domain_score=2
                 clinical_criterion_fulfilled="Yes"
+
             if discoidRash=="Yes":
                 domain_score=4
                 clinical_criterion_fulfilled="Yes"
+
             if photosensitivity=="Yes":
                 domain_score=6
                 clinical_criterion_fulfilled="Yes"
+
             weightage+=domain_score
+            print("weightage after Neuropsychiatric:", weightage)
 
             
             #Serosal
             domain_score=0
             if pleuralEffusion=="Yes":
                 domain_score=5
-                clinical_criterion_fulfilled="Yes"
+
             if pericarditis=="Yes":
                 domain_score=6
-                clinical_criterion_fulfilled="Yes"
+
             weightage+=domain_score
+            print("weightage after Neuropsychiatric:", weightage)
 
             
             #Musculoskeletal
             if jointPain=="Yes":
                 weightage+=6
                 clinical_criterion_fulfilled="Yes"
+                print("weightage after Neuropsychiatric:", weightage)
 
             #Renal
             domain_score=0
             if urineRoutine>0.5:
+                print("urineRoutine value:",urineRoutine)
                 domain_score=4
-                clinical_criterion_fulfilled="Yes"
+                
             if renalClass2=="Yes":
                 domain_score=8
-                clinical_criterion_fulfilled="Yes"
+                
             if renalClass3=="Yes":
                 domain_score=10
-                clinical_criterion_fulfilled="Yes"
+
             weightage+=domain_score
+            print("weightage after Neuropsychiatric:", weightage)
 
             #Antiphospholipid antibodies
             if anticardiolipin=="Yes" or antiB2GPI=="Yes" or lupusAnticoagulant=="Yes":
                 weightage+=2
+                print("weightage after ntiphospholipid antibodies:", weightage)
 
             #Complement proteins
             domain_score=0
             if c3<80 or c4<10:
+                print("c3 value:",c3)
+                print("c4 value:",c4)
                 domain_score=3
+
             if c3<80 and c4<10:
                 domain_score=4
-            weightage+=domain_score
 
+            weightage+=domain_score
+            print("weightage after Complement proteins:", weightage)
+
+
+            # check conditions
             if weightage>=10 and clinical_criterion_fulfilled=="Yes":
                 return JsonResponse({'prediction': 'Criteria Met', 'weightage': weightage })
             else:

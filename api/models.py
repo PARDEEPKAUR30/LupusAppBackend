@@ -21,7 +21,7 @@ class LupusData(models.Model):
     anticardiolipin = models.CharField(max_length=10,default="No")  
     antiB2GPI = models.CharField(max_length=10,default="No")  
     lupusAnticoagulant = models.CharField(max_length=10,default="No")  
-    tlc = models.FloatField(blank=True, null=True)
+    tlc = models.IntegerField(blank=True, null=True)
     platelet_count = models.FloatField(blank=True, null=True)
     urine_routine = models.FloatField(blank=True, null=True)
     c3 = models.FloatField(blank=True, null=True)
