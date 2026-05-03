@@ -207,6 +207,8 @@ def calculate_weightage(data):
             # check conditions
             if weightage>=10 and clinical_criterion_fulfilled=="Yes":
                 return JsonResponse({'prediction': 'Criteria Met', 'weightage': weightage })
+            elif weightage>=10 and clinical_criterion_fulfilled!="Yes":
+                return JsonResponse({'prediction': 'Criteria not Met (clinical criteria is not fullfilled)', 'weightage': weightage })
             else:
                 return JsonResponse({'prediction': 'Criteria Not Met', 'weightage': weightage})      
         else:
