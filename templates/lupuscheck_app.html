@@ -273,7 +273,7 @@
                 // ✅ CHECK ACTUAL RESULT CONTENT
                 if (response.ok && result.prediction !== "Something went wrong. Please try again!") {
                     
-                    const flagIcon = result.weightage >= 20 &&  result.clinical_criteriion=="Yes"
+                    const flagIcon = result.weightage >= 20 &&  result.clinical_criterion=="Yes"
                         ? ' <span style="color:red;">🚩 High Risk</span>' 
                         : '';
 
