@@ -73,12 +73,17 @@ def calculate_weightage(data):
         anticardiolipin=data.get("anticardiolipin","No")
         antiB2GPI=data.get("antiB2GPI","No")
         lupusAnticoagulant=data.get("lupusAnticoagulant","No")
-        tlc=int(data.get("tlc", 4000) if data.get("tlc") is not None else 4000)
-        plateletCount = float(data.get("plateletCount", 1.0) if data.get("plateletCount") is not None else 1.0)
-        urineRoutine = float(data.get("urineRoutine", 0.1) if data.get("urineRoutine") is not None else 0.1)
-        c3 = float(data.get("c3", 80) if data.get("c3") is not None else 80.0)
-        c4 = float(data.get("c4", 10) if data.get("c4") is not None else 10.0)
+        # tlc=int(data.get("tlc", 4000) if data.get("tlc") is not None else 4000)
+        # plateletCount = float(data.get("plateletCount", 1.0) if data.get("plateletCount") is not None else 1.0)
+        # urineRoutine = float(data.get("urineRoutine", 0.1) if data.get("urineRoutine") is not None else 0.1)
+        # c3 = float(data.get("c3", 80) if data.get("c3") is not None else 80.0)
+        # c4 = float(data.get("c4", 10) if data.get("c4") is not None else 10.0)
 
+        tlc = int(data.get("tlc").strip()) if data.get("tlc") and data.get("tlc").strip() else 4000
+        plateletCount = float(data.get("plateletCount").strip()) if data.get("plateletCount") and data.get("plateletCount").strip() else 1.0
+        urineRoutine = float(data.get("urineRoutine").strip()) if data.get("urineRoutine") and data.get("urineRoutine").strip() else 0.1
+        c3 = float(data.get("c3").strip()) if data.get("c3") and data.get("c3").strip() else 80.0
+        c4 = float(data.get("c4").strip()) if data.get("c4") and data.get("c4").strip() else 10.0
 
         weightage=0
         clinical_criterion_fulfilled="No"
