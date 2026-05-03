@@ -42,6 +42,7 @@ def predict_lupus(request):
             return Response({
                 "prediction": result_data.get("prediction"),
                 "weightage": result_data.get("weightage"),
+                "clinical_criterion":result_data.get("clinical_criterion"),
                 "data": serializer.data
             })
         
@@ -206,13 +207,13 @@ def calculate_weightage(data):
 
             # check conditions
             if weightage>=10 and clinical_criterion_fulfilled=="Yes":
-                return JsonResponse({'prediction': 'Criteria Met', 'weightage': weightage })
+                return JsonResponse({'prediction': 'Criteria Met', 'weightage': weightage, 'clinical_criterion':clinical_criterion_fulfilled })
             elif weightage>=10 and clinical_criterion_fulfilled!="Yes":
-                return JsonResponse({'prediction': 'Criteria not Met (clinical criteria is not fullfilled)', 'weightage': weightage })
+                return JsonResponse({'prediction': 'Criteria not Met (Clinical criterion is not fullfilled)', 'weightage': weightage, 'clinical_criterion':clinical_criterion_fulfilled })
             else:
-                return JsonResponse({'prediction': 'Criteria Not Met', 'weightage': weightage})      
+                return JsonResponse({'prediction': 'Criteria Not Met', 'weightage': weightage, 'clinical_criterion':clinical_criterion_fulfilled})      
         else:
-            return JsonResponse({'prediction': 'Criteria Not Met', 'weightage': weightage})
+            return JsonResponse({'prediction': 'Not eligible for Criteria (Require positive ANA test ≥ 1:80)', 'weightage': weightage, 'clinical_criterion':clinical_criterion_fulfilled})
 
     except Exception as e:
         print("Error>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>:",e)

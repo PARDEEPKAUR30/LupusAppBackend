@@ -26,6 +26,7 @@ class LupusData(models.Model):
     urine_routine = models.FloatField(blank=True, null=True)
     c3 = models.FloatField(blank=True, null=True)
     c4 = models.FloatField(blank=True, null=True)
+    ana=models.CharField(max_length=10,default="Negative") 
     # haemoglobin = models.FloatField(blank=True, null=True)
     # antiDsDNA = models.FloatField(blank=True, null=True) 
     # antiSmith = models.FloatField(blank=True, null=True)
