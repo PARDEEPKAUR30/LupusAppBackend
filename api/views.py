@@ -53,7 +53,7 @@ def predict_lupus(request):
 
 def calculate_weightage(data):
     try:
-        ana=data.get("ANA","Positive")
+        ana=data.get("ana","Positive")
         fever=data.get("fever","No")
         antiDsDNA=data.get("antiDsDNA","No")
         antiSmith=data.get("antiSmith","No")

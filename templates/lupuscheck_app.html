@@ -127,7 +127,7 @@
                             </div>
 
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input selected" type="radio" name="ANA" value="Negative" checked>
+                                <input class="form-check-input selected" type="radio" name="ana" value="Negative" checked>
                                 <label class="form-check-label">Negative</label>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
 
         $(document).ready(function () {
             function toggleCriteria() {
-                const selected = $('input[name="ANA"]:checked').val();
+                const selected = $('input[name="ana"]:checked').val();
 
                 if (selected === "Positive") {
                     // $('.criteria_parameters').show();
@@ -234,7 +234,7 @@
             toggleCriteria();
 
             // Listen for change
-            $('input[name="ANA"]').on('change', function () {
+            $('input[name="ana"]').on('change', function () {
                 toggleCriteria();
             });
 
