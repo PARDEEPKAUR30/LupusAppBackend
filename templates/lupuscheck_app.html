@@ -109,14 +109,17 @@
         .header-container {
             position: relative;
         }
+
         .reset-circle {
-            width: 35px;
-            height: 35px;
+            width: 24px;         
+            height: 24px;       
             border-radius: 50%;
-            border: 2px solid #9a33cc;
+            border: 2px solid #9a33cc;  
             background: transparent;
             color: #9a33cc;
-            font-size: 20px;
+            font-size: 14px; 
+            font-weight: bold;     
+            padding: 0;           
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -147,7 +150,7 @@
                             Check For Lupus
                         </h2>
 
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex">
                             <button type="button" id="resetBtn" class="btn reset-circle">
                                 ⟳
                             </button>
@@ -264,6 +267,9 @@
                 } else {
                     // $('.criteria_parameters').hide();
                     $('.criteria_parameters').stop(true, true).slideUp();
+                    $("#lupusForm")[0].reset();
+                    // Clear numeric fields explicitly
+                    $('input[type="number"]').val('');
                 }
             }
 
