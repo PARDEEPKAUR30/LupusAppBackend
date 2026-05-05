@@ -36,16 +36,19 @@
                 width: 40%;
             }
         }
-        #lupusForm {
+        #main{
             background:#fff;
             opacity: 0.85;
             border-radius: 15px;
-            height: 100vh;              
-            overflow-y: auto;
             border: 1px solid #ccc;
+        }
+
+        #lupusForm { 
+            height: 100vh;              
+            overflow-y: auto; 
             scrollbar-width: none;     /* Firefox */
             -ms-overflow-style: none;  /* IE */
-         }
+        }
          #lupusForm::-webkit-scrollbar {
             display: none; /* Chrome/Safari */
         }
@@ -138,91 +141,91 @@
     <div class="container mt-5 mb-5">
         <div class="card shadow p-0">
             
-            <form id="lupusForm" class="p-4">
-                {% csrf_token %}
-                <div>
-                    <!-- <h2 class="text-center mb-4 title fw-bold"><img src="{% static 'images/lupus_app_logo.png' %}" height="100" width="80">Check For Lupus</h2>-->
+            <div id="main" class="p-4">
+                <div class="header-container mb-3">
+                    <h2 class="text-center title fw-bold">
+                        <img src="{% static 'images/lupus_app_logo.png' %}" height="100" width="80">
+                        Check For Lupus
+                    </h2>
 
-
-                    <div class="header-container mb-3">
-                        <h2 class="text-center title fw-bold">
-                            <img src="{% static 'images/lupus_app_logo.png' %}" height="100" width="80">
-                            Check For Lupus
-                        </h2>
-
-                        <div class="d-flex">
-                            <button type="button" id="resetBtn" class="btn reset-circle">
-                                ⟳
-                            </button>
-                        </div>
+                    <div class="d-flex">
+                        <button type="button" id="resetBtn" class="btn reset-circle">
+                            ⟳
+                        </button>
                     </div>
+                </div>
+            
 
-                    <div class="entery_criteria">
-                        <div class="mb-3">
-                            <label class="form-label"><b>ANA Test</b></label><br>
+                <form id="lupusForm">
+                    {% csrf_token %}
+                    <div>
+                        <div class="entery_criteria">
+                            <div class="mb-3">
+                                <label class="form-label"><b>ANA Test</b></label><br>
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="ana" value="Positive">
-                                <label class="form-check-label">Positive</label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="ana" value="Positive">
+                                    <label class="form-check-label">Positive</label>
+                                </div>
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input selected" type="radio" name="ana" value="Negative" checked>
-                                <label class="form-check-label">Negative</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="criteria_parameters" style="display:none;">
-                        <!-- YES / NO RADIO TEMPLATE -->
-                        {% for field, label in fields %}
-                        <div class="mb-3">
-                            <label class="form-label"><b>{{ label }}</b></label><br>
-
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="{{ field }}" value="Yes">
-                                <label class="form-check-label">Yes</label>
-                            </div>
-
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input selected" type="radio" name="{{ field }}" value="No" checked>
-                                <label class="form-check-label">No</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input selected" type="radio" name="ana" value="Negative" checked>
+                                    <label class="form-check-label">Negative</label>
+                                </div>
                             </div>
                         </div>
-                        {% endfor %}
+                        <div class="criteria_parameters" style="display:none;">
+                            <!-- YES / NO RADIO TEMPLATE -->
+                            {% for field, label in fields %}
+                            <div class="mb-3">
+                                <label class="form-label"><b>{{ label }}</b></label><br>
 
-                        <!-- NUMERIC FIELDS -->
-                        <div class="mb-3">
-                            <label class="form-label"><b>Urine Protein or Proteinuria (g/24h)</b></label>
-                            <input type="number" step="any" class="form-control" name="urineRoutine">
-                        </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="{{ field }}" value="Yes">
+                                    <label class="form-check-label">Yes</label>
+                                </div>
 
-                        <div class="mb-3">
-                            <label class="form-label"><b>Total Leukocyte Count or TLC (/mcL)</b></label>
-                            <input type="number" step="any" class="form-control" name="tlc">
-                        </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input selected" type="radio" name="{{ field }}" value="No" checked>
+                                    <label class="form-check-label">No</label>
+                                </div>
+                            </div>
+                            {% endfor %}
 
-                        <div class="mb-3">
-                            <label class="form-label"><b>Platelet Count (Lacs/cmm)</b></label>
-                            <input type="number" step="any" class="form-control" name="plateletCount">
-                        </div>
+                            <!-- NUMERIC FIELDS -->
+                            <div class="mb-3">
+                                <label class="form-label"><b>Urine Protein or Proteinuria (g/24h)</b></label>
+                                <input type="number" step="any" class="form-control" name="urineRoutine">
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label"><b>C3 (mg/dL)</b></label>
-                            <input type="number" step="any" class="form-control" name="c3">
-                        </div>
+                            <div class="mb-3">
+                                <label class="form-label"><b>Total Leukocyte Count or TLC (/mcL)</b></label>
+                                <input type="number" step="any" class="form-control" name="tlc">
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label"><b>C4 (mg/dL)</b></label>
-                            <input type="number" step="any" class="form-control" name="c4">
+                            <div class="mb-3">
+                                <label class="form-label"><b>Platelet Count (Lacs/cmm)</b></label>
+                                <input type="number" step="any" class="form-control" name="plateletCount">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><b>C3 (mg/dL)</b></label>
+                                <input type="number" step="any" class="form-control" name="c3">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><b>C4 (mg/dL)</b></label>
+                                <input type="number" step="any" class="form-control" name="c4">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary w-40 submit-button">See Result</button>
+                            </div>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary w-40 submit-button">See Result</button>
-                        </div>
+                        
                     </div>
                     
-                </div>
-                
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
